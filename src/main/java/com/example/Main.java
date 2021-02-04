@@ -1,11 +1,12 @@
 package com.example;
 
-import com.example.testpackage.SomeClass;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.net.URL;
 
 public class Main extends Application {
 
@@ -15,13 +16,14 @@ public class Main extends Application {
         primaryStage.setWidth(800);
         primaryStage.setHeight(600);
 
+        URL fxmlURL = Main.class.getResource("test.fxml");
 
-        AnchorPane pane = new AnchorPane();
-        SomeClass someClass = new SomeClass();
-        Label label = new Label(someClass.testMethod());
-        pane.getChildren().add(label);
-        Scene scene = new Scene(pane);
-        primaryStage.setScene(scene);
+        System.out.println(fxmlURL);
+
+        FXMLLoader loader = new FXMLLoader(fxmlURL);
+        AnchorPane pane = loader.load();
+
+        primaryStage.setScene(new Scene(pane));
         primaryStage.show();
     }
 

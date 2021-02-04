@@ -1,3 +1,5 @@
+import proguard.gradle.ProGuardTask
+
 buildscript {
     repositories {
         jcenter()
@@ -25,8 +27,7 @@ targetCompatibility = 14
 
 
 application {
-    mainModule = "com.example"
-    mainClass = "com.example.Main"
+    mainClassName = "com.example/com.example.Main"
 }
 
 modularity.disableEffectiveArgumentsAdjustment()
@@ -48,7 +49,7 @@ test {
 }
 
 // 2.2 Add proguard task
-task proguard(type: proguard.gradle.ProGuardTask, dependsOn: classes) {
+task proguard(type: ProGuardTask, dependsOn: classes) {
     target '14'
 
     injars project.sourceSets.main.output+"(!META-INF/MANIFEST.MF)"

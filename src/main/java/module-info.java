@@ -7,5 +7,8 @@ module com.example {
     opens com.example to javafx.fxml;
 
     exports com.example;
+    exports com.example.controllers;
+
+    opens com.example.controllers;
 
 }
