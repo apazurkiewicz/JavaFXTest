@@ -1,0 +1,8 @@
+com.example.Main -> com.example.Main:
+    10:10:void <init>() -> <init>
+    14:26:void start(javafx.stage.Stage) -> start
+    30:31:void main(java.lang.String[]) -> main
+com.example.testpackage.SomeClass -> com.example.a.a:
+    3:3:void <init>() -> <init>
+    7:7:java.lang.String testMethod() -> a
+module-info -> module-info:

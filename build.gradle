@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.guardsquare:proguard-gradle:7.0.1'
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'org.beryx.jlink' version '2.23.2'
+}
+
+javafx {
+    version = "15.0.1"
+    modules = [ 'javafx.controls', 'javafx.base', 'javafx.graphics', 'javafx.fxml']
+}
+
+sourceCompatibility = 14
+targetCompatibility = 14
+
+
+application {
+    mainModule = "com.example"
+    mainClass = "com.example.Main"
+}
+
+modularity.disableEffectiveArgumentsAdjustment()
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// 2.2 Add proguard task
+task proguard(type: proguard.gradle.ProGuardTask, dependsOn: classes) {
+    target '14'
+
+    injars project.sourceSets.main.output+"(!META-INF/MANIFEST.MF)"
+    outjars "${buildDir}/proguard/output.jar"
+
+    libraryjars project.sourceSets.main.compileClasspath
+
+    configuration 'proguard.conf'
+
+}
+
+// 2.3 Clean after proguard task
+task cleanAfterProguard(type: Delete, dependsOn: proguard) {
+    delete "${buildDir}/classes/java/main"
+    delete "${buildDir}/resources/java/main"
+}
+
+// 2.4 Extract output jar to buildDir
+task unpackProguardOutput (type: Copy, dependsOn: cleanAfterProguard) {
+    from zipTree("${buildDir}/proguard/output.jar")
+    into file("${buildDir}/classes/java/main")
+
+
+}
